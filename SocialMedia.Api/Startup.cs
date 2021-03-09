@@ -26,6 +26,7 @@ namespace SocialMedia.Api
 {
     public class Startup
     {
+        readonly string CorsConfiguration = "_corsConfiguration";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -86,6 +87,15 @@ namespace SocialMedia.Api
                 };
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: CorsConfiguration,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("*");
+                                  });
+            });
+
             services.AddMvc().AddFluentValidation(options =>
             {
                 options.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
@@ -116,6 +126,8 @@ namespace SocialMedia.Api
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseCors(CorsConfiguration);
 
             app.UseEndpoints(endpoints =>
             {
