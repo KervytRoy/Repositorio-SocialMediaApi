@@ -38,7 +38,17 @@ namespace SocialMedia.Api
         {
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());                       
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: CorsConfiguration,
+                                  builder =>
+                                  {
+                                      builder.WithHeaders("*");
+                                      builder.WithOrigins("*");
+                                  });
+            });
 
             services.AddControllers(options => options.Filters.Add<GlobalExceptionFilter>());
 
@@ -87,14 +97,7 @@ namespace SocialMedia.Api
                 };
             });
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: CorsConfiguration,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("*");
-                                  });
-            });
+            
 
             services.AddMvc().AddFluentValidation(options =>
             {
