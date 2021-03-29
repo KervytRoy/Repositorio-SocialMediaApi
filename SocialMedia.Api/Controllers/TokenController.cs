@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SocialMedia.Core.Entities;
+using SocialMedia.Core.Interfaces;
+using SocialMedia.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,33 +19,39 @@ namespace SocialMedia.Api.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly IConfiguration _configuration;        
+        private readonly IConfiguration _configuration;
+        private readonly ISecurityService _securityService;
+        private readonly IPasswordService _passwordService;
 
-        public TokenController(IConfiguration configuration)
+        public TokenController(IConfiguration configuration, ISecurityService securityService, IPasswordService passwordService)
         {
-            _configuration = configuration;            
+            _configuration = configuration;
+            _securityService = securityService;
+            _passwordService = passwordService;
         }
 
         [HttpPost]
-        public IActionResult Authentication(UserLogin login)
+        public async Task<IActionResult> Authentication(UserLogin login)
         {
             //if it is a valid user
-            
-            if (IsValidUser(login))
+            var validation = await IsValidUser(login);
+            if (validation.Item1)
             {
-                var token = GenerateToken();
+                var token = GenerateToken(validation.Item2);
                 return Ok(new { token });
             }
 
             return NotFound();
         }
 
-        private bool IsValidUser(UserLogin login)
+        private async Task<(bool, Security)> IsValidUser(UserLogin login)
         {
-            return true;
+            var user = await _securityService.GetLoginByCredentials(login);
+            var isValid = _passwordService.Check(user.Password, login.Password);
+            return (isValid, user);
         }
 
-        private string GenerateToken()
+        private string GenerateToken(Security security)
         {
             //Header
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
@@ -53,9 +61,9 @@ namespace SocialMedia.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, "Kervyt Marrero"),
-                new Claim(ClaimTypes.Role, "Administrador"),
-                new Claim(ClaimTypes.Email, "kervyt@gmail.com"),
+                new Claim(ClaimTypes.Name, security.UserName),
+                new Claim("User", security.User),
+                new Claim(ClaimTypes.Role, security.Role.ToString()),
             };
 
             //Payload
@@ -65,7 +73,7 @@ namespace SocialMedia.Api.Controllers
                 _configuration["Authentication:Audience"],
                 claims,
                 DateTime.Now,
-                DateTime.UtcNow.AddMinutes(20)
+                DateTime.UtcNow.AddHours(10)
             );
 
             var token = new JwtSecurityToken(header, payload);

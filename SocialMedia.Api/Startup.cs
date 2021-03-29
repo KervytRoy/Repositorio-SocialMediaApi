@@ -17,6 +17,9 @@ using SocialMedia.Infraestructure.Filters;
 using SocialMedia.Infraestructure.Interfaces;
 using SocialMedia.Infraestructure.Repositories;
 using SocialMedia.Infraestructure.Services;
+using SocialMedia.Infrastructure.Interfaces;
+using SocialMedia.Infrastructure.Options;
+using SocialMedia.Infrastructure.Services;
 using System;
 using System.IO;
 using System.Reflection;
@@ -37,6 +40,7 @@ namespace SocialMedia.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
+            services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -58,7 +62,9 @@ namespace SocialMedia.Api
 
             
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<ISecurityService, SecurityService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IPasswordService, PasswordService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 

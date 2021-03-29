@@ -1,6 +1,7 @@
 ﻿using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Infraestructure.Data;
+using SocialMedia.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace SocialMedia.Infraestructure.Repositories
         public IRepository<User> UserRepository =>  new BaseRepository<User>(_context);
 
         public IRepository<Comment> CommentRepository =>  new BaseRepository<Comment>(_context);
+
+        public ISecurityRepository SecurityRepository => new SecurityRepository(_context);
 
         public void Dispose()
         {
