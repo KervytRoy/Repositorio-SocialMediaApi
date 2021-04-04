@@ -13,6 +13,7 @@ using SocialMedia.Core.CustomEntities;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.Services;
 using SocialMedia.Infraestructure.Data;
+using SocialMedia.Infraestructure.Extensions;
 using SocialMedia.Infraestructure.Filters;
 using SocialMedia.Infraestructure.Interfaces;
 using SocialMedia.Infraestructure.Repositories;
@@ -39,8 +40,7 @@ namespace SocialMedia.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
-            services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
+            services.AddOptions(Configuration);
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -56,25 +56,9 @@ namespace SocialMedia.Api
 
             services.AddControllers(options => options.Filters.Add<GlobalExceptionFilter>());
 
-            services.AddDbContext<SocialMediaContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SocialMedia"))
-                );
+            services.AddDbContexts(Configuration);
 
-            
-            services.AddTransient<IPostService, PostService>();
-            services.AddTransient<ISecurityService, SecurityService>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddSingleton<IPasswordService, PasswordService>();
-
-            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-
-            services.AddSingleton<IUriService>(provider =>
-            {
-                var accesor = provider.GetRequiredService<IHttpContextAccessor>();
-                var request = accesor.HttpContext.Request;
-                var absoluteUrl = $"{request.Scheme}://{request.Host.ToUriComponent()}";
-                return new UriService(absoluteUrl);
-            });
+            services.AddServices();
 
             services.AddSwaggerGen(doc =>
             {
@@ -127,7 +111,7 @@ namespace SocialMedia.Api
             app.UseSwaggerUI(options => 
             {
                 options.SwaggerEndpoint("../swagger/V1/swagger.json", "Social Media Api");
-                //options.RoutePrefix = string.Empty;
+                options.RoutePrefix = string.Empty;
             });
 
             app.UseRouting();

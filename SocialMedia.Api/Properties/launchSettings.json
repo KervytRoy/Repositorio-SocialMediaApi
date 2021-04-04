@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost/SocialMediaApi",
+      "applicationUrl": "http://localhost:9092/",
       "sslPort": 0
     },
     "iisExpress": {
@@ -32,11 +32,8 @@
       "commandName": "IIS",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "Clave": "Valor"
-      },
-      "sqlDebugging": false,
-      "nativeDebugging": false
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
