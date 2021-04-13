@@ -61,7 +61,7 @@ namespace SocialMedia.Core.Services
             var user = await _unitOfWork.UserRepository.GetById(post.UserId);
             if (user == null)
             {
-                throw new BusinessException("The user doesn't exist");
+                throw new BusinessException("El usuario no existe");
             }
 
             var postsByUser = await _unitOfWork.PostRepository.GetPostsByUser(post.UserId);

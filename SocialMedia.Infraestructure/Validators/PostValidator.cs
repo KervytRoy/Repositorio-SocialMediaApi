@@ -8,19 +8,31 @@ namespace SocialMedia.Infraestructure.Validators
     {
         public PostValidator()
         {
+            RuleFor(post => post.UserId)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("Usuario Inexistente");
+
             RuleFor(post => post.Description)
                 .NotNull()
                 .WithMessage("La descripcion no puede ser nula");
 
             RuleFor(post => post.Description)
                 .Length(10, 500)
-                .WithMessage("La longitud de la descripcion debe estar entre 10 y 500 caracteress");
+                .WithMessage("La longitud de la descripcion debe estar entre 10 y 500 caracteres");
 
             RuleFor(post => post.Date)
-                .NotNull().Equal(DateTime.Now);
-                //.LessThan(DateTime.Now)
-                //.GreaterThan(DateTime.Now);
-                
+                .NotNull()
+                .Equal(DateTime.Now.Date)
+                .WithMessage("La Fecha debe ser igual al día de hoy y no puede estar vacía");
+
+            RuleFor(post => post.Id)
+                .Null()
+                .Empty()
+                .WithMessage("Este campo debe ir vacío");
+
+
+
 
         }
     }
