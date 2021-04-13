@@ -44,15 +44,7 @@ namespace SocialMedia.Api
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: CorsConfiguration,
-                                  builder =>
-                                  {
-                                      builder.WithHeaders("*");
-                                      builder.WithOrigins("*");
-                                  });
-            });
+            services.AddCors();
 
             services.AddControllers(options => options.Filters.Add<GlobalExceptionFilter>());
 
@@ -120,7 +112,12 @@ namespace SocialMedia.Api
 
             app.UseAuthorization();
 
-            app.UseCors(CorsConfiguration);
+            app.UseCors(options => 
+            {
+                options.WithOrigins("*");
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+            });
 
             app.UseEndpoints(endpoints =>
             {
