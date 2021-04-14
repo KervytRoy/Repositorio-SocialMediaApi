@@ -25,4 +25,8 @@
     <ProjectReference Include="..\SocialMedia.Infraestructure\SocialMedia.Infraestructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="uploads\" />
+  </ItemGroup>
+
 </Project>
