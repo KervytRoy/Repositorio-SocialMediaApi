@@ -22,5 +22,11 @@ namespace SocialMedia.Infraestructure.Services
             string baseUrl = $"{_urlBase}{actionUrl}";
             return new Uri(baseUrl);
         }
+
+        public Uri GetControllerUrl(string actionUrl)
+        {
+            string baseUrl = $"{_urlBase}{actionUrl}";
+            return new Uri(baseUrl);
+        }
     }
 }

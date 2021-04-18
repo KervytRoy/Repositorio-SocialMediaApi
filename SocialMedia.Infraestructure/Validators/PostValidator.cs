@@ -26,10 +26,7 @@ namespace SocialMedia.Infraestructure.Validators
                 .Equal(DateTime.Now.Date)
                 .WithMessage("La Fecha debe ser igual al día de hoy y no puede estar vacía");
 
-            RuleFor(post => post.Id)
-                .Null()
-                .Empty()
-                .WithMessage("Este campo debe ir vacío");
+            
 
 
 

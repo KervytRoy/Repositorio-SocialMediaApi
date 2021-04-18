@@ -6,5 +6,6 @@ namespace SocialMedia.Infraestructure.Interfaces
     public interface IUriService
     {
         Uri GetPostPaginationUrl(PostQueryFilters filter, string actionUrl);
+        Uri GetControllerUrl(string actionUrl);
     }
 }

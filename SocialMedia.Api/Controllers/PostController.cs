@@ -48,6 +48,12 @@ namespace SocialMedia.Api.Controllers
             var posts =  _postService.GetPosts(filters);
             var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
 
+            foreach (var item in postsDto)
+            {
+                var nameImage = item.Image;
+                item.Image = _uriService.GetControllerUrl(Url.Action("GetImage", "Image", new { fileName = nameImage })).ToString();                
+            }
+
             var metaData = new MetaData
             {
                 TotalCount = posts.TotalCount,
@@ -75,6 +81,9 @@ namespace SocialMedia.Api.Controllers
         {
             var post = await _postService.GetPost(id);
             var postDto = _mapper.Map<PostDto>(post);
+
+            var nameImage = postDto.Image;
+            postDto.Image = _uriService.GetControllerUrl(Url.Action("GetImage", "Image", new { fileName = nameImage })).ToString();
             return Ok(postDto);
         }
 
