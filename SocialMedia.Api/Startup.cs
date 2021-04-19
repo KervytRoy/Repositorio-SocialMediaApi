@@ -30,7 +30,7 @@ namespace SocialMedia.Api
 {
     public class Startup
     {
-        readonly string CorsConfiguration = "_corsConfiguration";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
