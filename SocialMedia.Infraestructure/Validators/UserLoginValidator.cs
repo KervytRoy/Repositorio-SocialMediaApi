@@ -18,7 +18,7 @@ namespace SocialMedia.Infraestructure.Validators
 
             RuleFor(userlogin => userlogin.User)
                 .Length(1, 30)
-                .WithMessage("Excedió el límite de caracteres");
+                .WithMessage("Debe ingresar entre 1 y 30 caracteres");
 
             RuleFor(userlogin => userlogin.User)
                 .NotNull()
@@ -30,7 +30,7 @@ namespace SocialMedia.Infraestructure.Validators
 
             RuleFor(userlogin => userlogin.Password)
                 .Length(1, 30)
-                .WithMessage("Excedió el límite de caracteres");
+                .WithMessage("Debe ingresar entre 1 y 30 caracteres");
 
             RuleFor(userlogin => userlogin.Password)
                 .NotNull()
