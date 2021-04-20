@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Core.Entities;
+using SocialMedia.Core.Exceptions;
 using SocialMedia.Core.Interfaces;
 using System.Threading.Tasks;
 
@@ -15,7 +16,12 @@ namespace SocialMedia.Core.Services
 
         public async Task<Security> GetLoginByCredentials(UserLogin userLogin)
         {
-            return await _unitOfWork.SecurityRepository.GetLoginByCredentials(userLogin);
+            var user = await _unitOfWork.SecurityRepository.GetLoginByCredentials(userLogin);
+            if (user == null)
+            {
+                throw new BusinessException("El usuario no existe");
+            }
+            return user;
         }
 
         public async Task RegisterUser(Security security)
