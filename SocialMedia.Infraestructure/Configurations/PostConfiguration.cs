@@ -24,6 +24,10 @@ namespace SocialMedia.Infraestructure.Configurations
                 .HasMaxLength(1000)
                 .IsUnicode(false);
 
+            builder.Property(e => e.Title)                
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
             builder.Property(e => e.Date).HasColumnType("datetime");
 
             builder.Property(e => e.Image)
