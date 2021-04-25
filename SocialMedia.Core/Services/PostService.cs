@@ -63,24 +63,7 @@ namespace SocialMedia.Core.Services
             {
                 throw new BusinessException("El usuario no existe");
             }
-
-            var postsByUser = await _unitOfWork.PostRepository.GetPostsByUser(post.UserId);
-
-            if(postsByUser.Count() < 10)
-            {
-                var lastPost = postsByUser.OrderByDescending(x => x.Date).FirstOrDefault();
-                
-                if((DateTime.Now - lastPost.Date).TotalDays < 7)
-                {
-                    throw new BusinessException("No habilitado para publicar");
-                }
-            }
-
-            if (post.Description.Contains("sexo"))
-            {
-                throw new BusinessException("No puede contener palabras relacionadas a sexo");
-            }
-
+            
             await _unitOfWork.PostRepository.Add(post);
 
             await _unitOfWork.SaveChangesAsync();
