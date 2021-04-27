@@ -16,7 +16,7 @@ namespace SocialMedia.Infraestructure.Mappings
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
 
-            CreateMap<Security, SecurityDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }

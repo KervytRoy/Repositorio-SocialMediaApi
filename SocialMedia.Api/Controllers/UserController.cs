@@ -16,13 +16,13 @@ namespace SocialMedia.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class SecurityController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly ISecurityService _securityService;
         private readonly IMapper _mapper;
         private readonly IPasswordService _passwordService;
 
-        public SecurityController(ISecurityService securityService, IMapper mapper, IPasswordService passwordService)
+        public UserController(ISecurityService securityService, IMapper mapper, IPasswordService passwordService)
         {
             _securityService = securityService;
             _mapper = mapper;
@@ -30,15 +30,15 @@ namespace SocialMedia.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(SecurityDto securityDto)
+        public async Task<IActionResult> Post(UserDto userDto)
         {
-            var security = _mapper.Map<Security>(securityDto);
+            var user = _mapper.Map<User>(userDto);
 
-            security.Password = _passwordService.Hash(security.Password);
-            await _securityService.RegisterUser(security);
+            user.Password = _passwordService.Hash(user.Password);
+            await _securityService.RegisterUser(user);
 
-            securityDto = _mapper.Map<SecurityDto>(security);
-            var response = new ApiResponse<SecurityDto>(securityDto);
+            userDto = _mapper.Map<UserDto>(user);
+            var response = new ApiResponse<string>(userDto.FirstName);
             return Ok(response);
         }
 

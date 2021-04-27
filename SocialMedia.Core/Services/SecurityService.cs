@@ -14,7 +14,7 @@ namespace SocialMedia.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Security> GetLoginByCredentials(UserLogin userLogin)
+        public async Task<User> GetLoginByCredentials(UserLogin userLogin)
         {
             var user = await _unitOfWork.SecurityRepository.GetLoginByCredentials(userLogin);
             if (user == null)
@@ -24,9 +24,9 @@ namespace SocialMedia.Core.Services
             return user;
         }
 
-        public async Task RegisterUser(Security security)
+        public async Task RegisterUser(User user)
         {
-            await _unitOfWork.SecurityRepository.Add(security);
+            await _unitOfWork.SecurityRepository.Add(user);
             await _unitOfWork.SaveChangesAsync();
         }
     }

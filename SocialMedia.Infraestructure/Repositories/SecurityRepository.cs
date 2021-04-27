@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Infrastructure.Repositories
 {
-    public class SecurityRepository : BaseRepository<Security>, ISecurityRepository
+    public class SecurityRepository : BaseRepository<User>, ISecurityRepository
     {
         public SecurityRepository(SocialMediaContext context) : base(context) { }
 
-        public async Task<Security> GetLoginByCredentials(UserLogin login)
+        public async Task<User> GetLoginByCredentials(UserLogin login)
         {
-            return await _entities.FirstOrDefaultAsync(x => x.User == login.User);
+            return await _entities.FirstOrDefaultAsync(x => x.UserIdentity == login.User);
         }
     }
 }

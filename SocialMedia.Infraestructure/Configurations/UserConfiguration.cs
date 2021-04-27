@@ -20,6 +20,21 @@ namespace SocialMedia.Infraestructure.Configurations
 
             builder.Property(e => e.Id).HasColumnName("UserId");
 
+            builder.Property(e => e.UserIdentity)
+                .HasColumnName("UserIdentity")                
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            builder.Property(e => e.Password)
+                .HasColumnName("UserPassword")                
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+            builder.Property(e => e.Role)
+               .HasColumnName("Role")
+               .HasMaxLength(15);
+               
+
             builder.Property(e => e.LastName)
                 .IsRequired()
                 .HasMaxLength(50)
@@ -28,18 +43,13 @@ namespace SocialMedia.Infraestructure.Configurations
             builder.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(30)
-                .IsUnicode(false);
-
-            builder.Property(e => e.DateOfBirth).HasColumnType("date");
+                .IsUnicode(false);            
 
             builder.Property(e => e.FirstName)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
-            builder.Property(e => e.Telephone)
-                .HasMaxLength(10)
-                .IsUnicode(false);
+            
         }
     }
 }

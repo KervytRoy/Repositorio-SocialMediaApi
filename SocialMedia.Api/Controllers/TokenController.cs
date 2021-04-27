@@ -38,20 +38,21 @@ namespace SocialMedia.Api.Controllers
             if (validation.Item1)
             {
                 var token = GenerateToken(validation.Item2);
-                return Ok(new { token });
+                var userId = validation.Item2.Id;
+                return Ok(new { token, userId });
             }
 
             return NotFound();
         }
 
-        private async Task<(bool, Security)> IsValidUser(UserLogin login)
+        private async Task<(bool, User)> IsValidUser(UserLogin login)
         {
             var user = await _securityService.GetLoginByCredentials(login);
             var isValid = _passwordService.Check(user.Password, login.Password);
             return (isValid, user);
         }
 
-        private string GenerateToken(Security security)
+        private string GenerateToken(User security)
         {
             //Header
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
@@ -61,8 +62,8 @@ namespace SocialMedia.Api.Controllers
             //Claims
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, security.UserName),
-                new Claim("User", security.User),
+                new Claim(ClaimTypes.Name, security.FirstName),
+                new Claim("User", security.UserIdentity),
                 new Claim(ClaimTypes.Role, security.Role.ToString()),
             };
 
