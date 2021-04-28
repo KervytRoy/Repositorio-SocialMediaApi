@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Core.CustomEntities;
+using SocialMedia.Core.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Api.Controllers
 {
-    [Authorize]
+    
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -23,6 +24,7 @@ namespace SocialMedia.Api.Controllers
             _environment = environment;
         }
 
+        [Authorize(Roles = nameof(RoleType.Administrator))]
         [HttpPost]
         public async Task<IActionResult> InsertImage([FromForm] ImageUpload upload)
         {
@@ -47,10 +49,7 @@ namespace SocialMedia.Api.Controllers
                     await fs.CopyToAsync(ms);
                     return File(ms.ToArray(), "image/png");
                 }
-            }
-                       
+            }                       
         }
-
-
     }
 }

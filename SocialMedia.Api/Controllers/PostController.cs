@@ -7,6 +7,7 @@ using SocialMedia.Api.Responses;
 using SocialMedia.Core.CustomEntities;
 using SocialMedia.Core.DTOs;
 using SocialMedia.Core.Entities;
+using SocialMedia.Core.Enumerations;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.QueryFilters;
 using SocialMedia.Infraestructure.Interfaces;
@@ -87,6 +88,7 @@ namespace SocialMedia.Api.Controllers
             return Ok(postDto);
         }
 
+        [Authorize(Roles = nameof(RoleType.Administrator))]
         [HttpPost]
         public async Task<IActionResult> InsertPost(PostDto postDto)
         {
@@ -96,6 +98,7 @@ namespace SocialMedia.Api.Controllers
             return Ok(postDto);
         }
 
+        [Authorize(Roles = nameof(RoleType.Administrator))]
         [HttpPut]
         public async Task<IActionResult> UpdatePost(int id, PostDto postDto)
         {
@@ -106,6 +109,7 @@ namespace SocialMedia.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = nameof(RoleType.Administrator))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(int id)
         {            
