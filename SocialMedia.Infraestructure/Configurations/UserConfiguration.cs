@@ -23,16 +23,19 @@ namespace SocialMedia.Infraestructure.Configurations
             builder.Property(e => e.UserIdentity)
                 .HasColumnName("UserIdentity")                
                 .HasMaxLength(50)
+                .IsRequired()
                 .IsUnicode(false);
 
             builder.Property(e => e.Password)
                 .HasColumnName("UserPassword")                
                 .HasMaxLength(200)
+                .IsRequired()
                 .IsUnicode(false);
 
             builder.Property(e => e.Role)
                .HasColumnName("Role")
-               .HasMaxLength(15);
+               .HasMaxLength(15)
+               .IsRequired();
                
 
             builder.Property(e => e.LastName)
