@@ -19,7 +19,12 @@ namespace SocialMedia.Infraestructure.Validators
             RuleFor(image => image.Image)
                 .NotNull()
                 .WithMessage("Debe enviar una imagen");
-            
+
+            RuleFor(image => image.Image)
+                .Must(image => image.ContentType == "image/jpeg" || image.ContentType == "image/png")
+                .WithMessage("Debe enviar una imagen");
+
+
         }
     }
 }
