@@ -93,6 +93,7 @@ namespace SocialMedia.Api.Controllers
         public async Task<IActionResult> InsertPost(PostDto postDto)
         {
             var post = _mapper.Map<Post>(postDto);
+            post.Date = DateTime.Now.Date;
             await _postService.InsertPost(post);
             postDto = _mapper.Map<PostDto>(post);
             return Ok(postDto);

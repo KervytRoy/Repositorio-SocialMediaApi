@@ -21,10 +21,11 @@ namespace SocialMedia.Infraestructure.Validators
                 .Length(10, 500)
                 .WithMessage("La longitud de la descripcion debe estar entre 10 y 500 caracteres");
 
-            RuleFor(post => post.Date)
+            RuleFor(post => post.Image)
                 .NotNull()
-                .Equal(DateTime.Now.Date)
-                .WithMessage("La Fecha debe ser igual al día de hoy y no puede estar vacía");     
+                .WithMessage("La Imagen no puede ser nula");
+
+
 
         }
     }
