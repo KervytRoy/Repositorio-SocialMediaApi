@@ -29,9 +29,9 @@ namespace SocialMedia.Core.Services
             filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
             filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
 
-            var posts = _unitOfWork.PostRepository.GetAll();
+            var posts = _unitOfWork.PostRepository.GetAll();            
 
-            if(filters.UserId != null)
+            if (filters.UserId != null)
             {
                 posts = posts.Where(x => x.UserId == filters.UserId);
             }
@@ -53,7 +53,12 @@ namespace SocialMedia.Core.Services
 
         public async Task<Post> GetPost(int id)
         {
-            return await _unitOfWork.PostRepository.GetById(id);
+            var post = await _unitOfWork.PostRepository.GetById(id);
+            if (post == null)
+            {
+                throw new BusinessException("El Post no existe");
+            }
+            return post;
         }
 
         public async Task InsertPost(Post post)
