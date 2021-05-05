@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SocialMedia.Api.Responses;
+using SocialMedia.Core.CustomEntities;
 using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Infrastructure.Interfaces;
@@ -51,10 +52,14 @@ namespace SocialMedia.Api.Controllers
                 var userId = validation.Item2.Id;
                 var role = validation.Item2.Role;
 
-                Response.Headers.Add("x-UserId", userId.ToString());
-                Response.Headers.Add("x-Role", role);
+                var tokenClaims = new TokenClaims
+                {
+                    Token = token,
+                    Role = role,
+                    UserId = userId
+                };
 
-                var response = new ApiResponse<string>(token);
+                var response = new ApiResponse<TokenClaims>(tokenClaims);
 
                 return Ok(response);
             }
