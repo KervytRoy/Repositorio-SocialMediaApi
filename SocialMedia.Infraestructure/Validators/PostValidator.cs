@@ -17,9 +17,17 @@ namespace SocialMedia.Infraestructure.Validators
                 .NotNull()
                 .WithMessage("La descripcion no puede ser nula");
 
+            RuleFor(post => post.Title)
+                .NotNull()
+                .WithMessage("El título no puede ser nulo");
+
+            RuleFor(post => post.Title)
+                .Length(1, 50)
+                .WithMessage("La longitud del título debe estar entre 1 y 50 caracteres");
+
             RuleFor(post => post.Description)
-                .Length(10, 500)
-                .WithMessage("La longitud de la descripcion debe estar entre 10 y 500 caracteres");
+                .Length(10, 1000)
+                .WithMessage("La longitud de la descripcion debe estar entre 10 y 1000 caracteres");
 
             RuleFor(post => post.Image)
                 .NotNull()
