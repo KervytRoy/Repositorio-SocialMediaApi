@@ -45,6 +45,7 @@ namespace SocialMedia.Api.Controllers
         public IActionResult GetPosts([FromQuery]PostQueryFilters filters)
         {
             var posts =  _postService.GetPosts(filters);
+            posts.Reverse();
             var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
 
             foreach (var item in postsDto)

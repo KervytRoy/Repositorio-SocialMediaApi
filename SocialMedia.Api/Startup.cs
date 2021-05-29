@@ -2,25 +2,13 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SocialMedia.Core.CustomEntities;
-using SocialMedia.Core.Interfaces;
-using SocialMedia.Core.Services;
-using SocialMedia.Infraestructure.Data;
 using SocialMedia.Infraestructure.Extensions;
 using SocialMedia.Infraestructure.Filters;
-using SocialMedia.Infraestructure.Interfaces;
-using SocialMedia.Infraestructure.Repositories;
-using SocialMedia.Infraestructure.Services;
-using SocialMedia.Infrastructure.Interfaces;
-using SocialMedia.Infrastructure.Options;
-using SocialMedia.Infrastructure.Services;
 using System;
 using System.IO;
 using System.Reflection;
@@ -102,7 +90,7 @@ namespace SocialMedia.Api
 
             app.UseSwaggerUI(options => 
             {
-                options.SwaggerEndpoint("../swagger/V1/swagger.json", "Social Media Api");
+                options.SwaggerEndpoint("/swagger/V1/swagger.json", "Social Media Api");
                 options.RoutePrefix = string.Empty;
             });
 

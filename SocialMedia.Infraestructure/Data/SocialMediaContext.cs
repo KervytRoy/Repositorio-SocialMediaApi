@@ -19,10 +19,7 @@ namespace SocialMedia.Infraestructure.Data
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-AT5OL2B;Database=SocialMedia;User = sa; Password = 175390513");
-        }
+        
 
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
