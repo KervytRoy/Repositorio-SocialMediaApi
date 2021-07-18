@@ -8,6 +8,7 @@ namespace SocialMedia.Core.Entities
 {
     public class UserLogin
     {
+        //Test
         public string User { get; set; }
 
         public string Password { get; set; }
